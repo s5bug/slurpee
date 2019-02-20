@@ -1,5 +1,7 @@
 import sbtcrossproject.CrossPlugin.autoImport.{crossProject, CrossType}
 
+val cross212 = crossScalaVersions := Seq("2.12.8")
+
 val sharedSettings = Seq(
   organization := "tf.bug",
   name         := "slurpee",
@@ -21,8 +23,8 @@ lazy val slurpee =
   crossProject(JSPlatform, JVMPlatform, NativePlatform)
     .crossType(CrossType.Pure)
     .settings(sharedSettings)
-    .jsSettings( /* ... */ )
-    .jvmSettings( /* ... */ )
+    .jsSettings(cross212)
+    .jvmSettings(cross212)
     .nativeSettings( /* ... */ )
 
 lazy val slurpeeJS = slurpee.js
