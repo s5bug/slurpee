@@ -2,7 +2,7 @@ package org.jsonrpc
 
 import json._
 import org.jsonrpc.polymorphic.Instance
-import org.jsonrpc.struct.{NotificationStruct, RPCErrorStruct, RequestStruct, ResponseStruct}
+import org.jsonrpc.struct._
 
 import scala.util.Try
 
@@ -35,18 +35,25 @@ object implicits extends struct.StructImplicits {
       j.to[RequestStruct].r
     })
 
-  implicit def rpcErrorJson[E: JSONAccessor]: JSONAccessor[RPCError[E]] =
+  implicit def errorDataJson[E: JSONAccessor]: JSONAccessor[ErrorData[E]] =
     JSONAccessor.create({ r =>
-      RPCErrorStruct(r).js
+      ErrorDataStruct(r).js
     }, { j =>
-      j.to[RPCErrorStruct].r[E]
+      j.to[ErrorDataStruct].r[E]
     })
 
-  implicit def responseJson[A: JSONAccessor, E: JSONAccessor]: JSONAccessor[Response[A, E]] =
+  implicit def resultJson[A: ObjectAccessor]: JSONAccessor[Result[A]] =
     JSONAccessor.create({ r =>
-      ResponseStruct(r).js
+      ResultStruct(r).js
     }, { j =>
-      j.to[ResponseStruct].r[A, E]
+      j.to[ResultStruct].r[A]
+    })
+
+  implicit def errorJson[E: ObjectAccessor]: JSONAccessor[Error[E]] =
+    JSONAccessor.create({ e =>
+      ErrorStruct(e).js
+    }, { j =>
+      j.to[ErrorStruct].r[E]
     })
 
   implicit def notificationJson[A: ObjectAccessor]: JSONAccessor[Notification[A]] =

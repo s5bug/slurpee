@@ -2,34 +2,34 @@ package org.jsonrpc
 
 import json.{accessor, JSONAccessor}
 
-case class RPCError[E: JSONAccessor](code: RPCErrorCode, message: String, data: Option[E])
+case class ErrorData[E: JSONAccessor](code: ErrorCode, message: String, data: Option[E])
 
-sealed trait RPCErrorCode {
+sealed trait ErrorCode {
   val code: Int
 }
 
-object RPCErrorCode {
-  case object ParseError extends RPCErrorCode {
+object ErrorCode {
+  case object ParseError extends ErrorCode {
     override val code: Int = -32700
   }
-  case object InvalidRequest extends RPCErrorCode {
+  case object InvalidRequest extends ErrorCode {
     override val code: Int = -32600
   }
-  case object MethodNotFound extends RPCErrorCode {
+  case object MethodNotFound extends ErrorCode {
     override val code: Int = -32601
   }
-  case object InvalidParameters extends RPCErrorCode {
+  case object InvalidParameters extends ErrorCode {
     override val code: Int = -32602
   }
-  case object InternalError extends RPCErrorCode {
+  case object InternalError extends ErrorCode {
     override val code: Int = -32603
   }
-  case class ServerError(n: Int) extends RPCErrorCode {
+  case class ServerError(n: Int) extends ErrorCode {
     override val code: Int = -32000 - n
   }
-  case class ApplicationError(code: Int) extends RPCErrorCode
+  case class ApplicationError(code: Int) extends ErrorCode
 
-  def apply(n: Int): RPCErrorCode = n match {
+  def apply(n: Int): ErrorCode = n match {
     case -32700 => ParseError
     case -32600 => InvalidRequest
     case -32601 => MethodNotFound
