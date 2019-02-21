@@ -2,7 +2,7 @@ package org.jsonrpc
 
 import json._
 import org.jsonrpc.polymorphic.Instance
-import org.jsonrpc.struct.{RPCErrorStruct, RequestStruct, ResponseStruct}
+import org.jsonrpc.struct.{NotificationStruct, RPCErrorStruct, RequestStruct, ResponseStruct}
 
 import scala.util.Try
 
@@ -47,6 +47,13 @@ object implicits extends struct.StructImplicits {
       ResponseStruct(r).js
     }, { j =>
       j.to[ResponseStruct].r[A, E]
+    })
+
+  implicit def notificationJson[A: ObjectAccessor]: JSONAccessor[Notification[A]] =
+    JSONAccessor.create({ n =>
+      NotificationStruct(n).js
+    }, { j =>
+      j.to[NotificationStruct].r[A]
     })
 
 }

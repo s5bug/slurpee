@@ -42,7 +42,7 @@ val publishSettings = Seq(
 val sharedSettings = Seq(
   organization := "tf.bug",
   name         := "slurpee",
-  version      := "1.0.0",
+  version      := "1.1.0",
   scalaVersion := "2.11.12",
   resolvers ++= Seq(
     "mmreleases" at "https://artifactory.mediamath.com/artifactory/libs-release-global",
